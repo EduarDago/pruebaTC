@@ -1,0 +1,53 @@
+﻿@model IEnumerable<Parametro>
+@using System.Text.RegularExpressions;
+@{
+    ViewData["Title"] = "Listado de Parametros";
+}
+
+<div class="row">
+    <div class="col-11">
+        <h2>Parametros</h2>
+    </div>
+    <div class="col-1">
+        <a asp-action="Nuevo" style="color:green"><i class="fas fa-plus-circle" style="font-size:40px"></i></a>
+    </div>
+</div>
+<hr />
+
+
+<div class="row">
+    <div class="col-12">
+
+        @if (Model.Any())
+        {
+            <table class="table table-bordered table-striped table-sm">
+                <tr class="text-center">
+                    <th>Acciones</th>
+                    <th>Id</th>
+                    <th>Nombre</th>
+                    <th>Valor</th>
+                    <th>Fecha Actualizacion</th>
+                </tr>
+                @foreach (var item in Model)
+                {
+                    <tr class="text-center">
+                        <td class="col-xs-1">
+                            <a title="Editar" style="color:green" asp-action="Editar" asp-route-id="@item.IdParametro"><i class="fas fa-edit"></i></a>
+                        </td>
+                        <td class="col-xs-1"> @Html.DisplayFor(modelItem => item.IdParametro) </td>
+                        <td class="col-xs-1"> @Html.DisplayFor(modelItem => item.Nombre) </td>
+                        <td class="col-xs-3">
+                            @Regex.Replace(item.Valor, ";", " ")
+                        </td>
+                        <td class="col-xs-1"> @Html.DisplayFor(modelItem => item.FechaActualizacion) </td>
+                    </tr>
+                }
+            </table>
+        }
+        else
+        {
+            <h5>Actualmente no hay parametros configurados</h5>
+        }
+    </div>
+</div>
+

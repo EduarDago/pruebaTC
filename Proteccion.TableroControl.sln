@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27428.2043
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Proteccion.TableroControl.Datos", "Proteccion.TableroControl.Datos\Proteccion.TableroControl.Datos.csproj", "{20BC574A-406D-4CBC-9F90-B34A40B7B960}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Proteccion.TableroControl.Dominio", "Proteccion.TableroControl.Dominio\Proteccion.TableroControl.Dominio.csproj", "{6851D4F7-C23D-4FA3-8A98-95D017215128}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Proteccion.TableroControl.Proxy", "Proteccion.TableroControl.Proxy\Proteccion.TableroControl.Proxy.csproj", "{A2099727-0BF1-4B8F-A424-94EC23C76296}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Proteccion.TableroControl.Presentacion", "Proteccion.TableroControl.Presentacion\Proteccion.TableroControl.Presentacion.csproj", "{75D65949-E82F-49B0-AA57-E3B8A4C24765}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Proteccion.TableroControl.Test", "Proteccion.TableroControl.Test\Proteccion.TableroControl.Test.csproj", "{A43D2324-D60C-4030-9E5C-6E8ADE1E03E9}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{0ED87790-41BE-482E-8704-831D46DE6F0C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{20BC574A-406D-4CBC-9F90-B34A40B7B960}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{20BC574A-406D-4CBC-9F90-B34A40B7B960}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{20BC574A-406D-4CBC-9F90-B34A40B7B960}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{20BC574A-406D-4CBC-9F90-B34A40B7B960}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6851D4F7-C23D-4FA3-8A98-95D017215128}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6851D4F7-C23D-4FA3-8A98-95D017215128}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6851D4F7-C23D-4FA3-8A98-95D017215128}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6851D4F7-C23D-4FA3-8A98-95D017215128}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A2099727-0BF1-4B8F-A424-94EC23C76296}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A2099727-0BF1-4B8F-A424-94EC23C76296}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A2099727-0BF1-4B8F-A424-94EC23C76296}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A2099727-0BF1-4B8F-A424-94EC23C76296}.Release|Any CPU.Build.0 = Release|Any CPU
+		{75D65949-E82F-49B0-AA57-E3B8A4C24765}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{75D65949-E82F-49B0-AA57-E3B8A4C24765}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{75D65949-E82F-49B0-AA57-E3B8A4C24765}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{75D65949-E82F-49B0-AA57-E3B8A4C24765}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A43D2324-D60C-4030-9E5C-6E8ADE1E03E9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A43D2324-D60C-4030-9E5C-6E8ADE1E03E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A43D2324-D60C-4030-9E5C-6E8ADE1E03E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A43D2324-D60C-4030-9E5C-6E8ADE1E03E9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0ED87790-41BE-482E-8704-831D46DE6F0C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0ED87790-41BE-482E-8704-831D46DE6F0C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0ED87790-41BE-482E-8704-831D46DE6F0C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0ED87790-41BE-482E-8704-831D46DE6F0C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {ED0D18DA-CB86-4F1D-B47B-991B6C43B200}
+	EndGlobalSection
+EndGlobal

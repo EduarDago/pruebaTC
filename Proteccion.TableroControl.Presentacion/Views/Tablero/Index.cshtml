@@ -1,0 +1,142 @@
+﻿@model TableroViewModel
+@{
+    ViewData["Title"] = "Tablero";
+}
+
+<div class="row">
+    <div class="col-8">
+        <h1>Tablero de Control <a href="javascript:void(0)" id="btnEjecutar" style="color:green"><i class="fas fa-play-circle"></i></a></h1>
+    </div>
+</div>
+<hr />
+<form asp-action="Index" method="get" id="frmFiltros">
+    <div class="row text-right">
+
+        <div class="offset-2 col-4">
+            <label>Equipo :</label>
+            <select asp-for="IdEquipo" class="form-control-sm" onchange="filtrarValidaciones()"
+                    asp-items="@(new SelectList(Model.Equipos,"IdTopico","TextoMostrar"))">
+                <option value="0">Todos</option>
+            </select>
+        </div>
+        <div class="col-6">
+            <label>Tipo Validaciones :</label>
+            <select asp-for="IdTipoValidacion" class="form-control-sm" onchange="filtrarValidaciones()"
+                    asp-items="@(new SelectList(Model.TiposValidacion,"IdTopico","TextoMostrar"))">
+                <option value="0">Todos</option>
+            </select>
+        </div>
+
+    </div>
+</form>
+
+<div style="margin-top:20px">
+    <table class="table table-bordered table-striped table-sm text-center">
+        <thead>
+            <tr>
+                <th style="vertical-align:middle"><input type="checkbox" id="checkTodos" /></th>
+                <th>Validación</th>
+                <th>Estado</th>
+                <th>Detalles</th>
+                <th>&Uacute;ltima ejecuci&oacute;n</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var validacion in Model.Validaciones)
+            {
+            <tr>
+                <td style="width:30px"><input type="checkbox" id="checkValidacion_@validacion.IdValidacion" data-id="@validacion.IdValidacion" class="validacionCheck" /></td>
+                <td style="width:50%">@validacion.Nombre</td>
+                <td id="celda_@validacion.IdValidacion"><img id="imagen_@validacion.IdValidacion" style="display:none" class="cargaEjecucion" src="~/images/loader.gif" alt="procesando" height="20" /> &nbsp;<span class="resultados" id="resultado_@validacion.IdValidacion">Pendiente</span></td>
+                <td style="width:10%"><a href="javascript:void(0)" id="detalle_@validacion.IdValidacion" onclick="mostrarInconsistencias(@validacion.IdValidacion)" style="display:none;"><i class="fas fa-window-restore"></i></a></td>
+                @{ var ultValidacion = @Model.UltimaEjecucionValidacion.Where(a => int.Parse(a.TipoValidacion) == validacion.IdValidacion).FirstOrDefault(); }
+                <td style="width:50%">@{ if (ultValidacion != null) { @Html.Raw(string.Concat(ultValidacion.FechaEjecucion.ToShortDateString()," - ", ultValidacion.Usuario));  } }</td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<!-- Modal Inconsistencias -->
+<div class="modal fade" id="modalInconsistencias" tabindex="-1" role="dialog" aria-labelledby="modalInconsistenciasTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Detalle Inconsistencias</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div style="margin:5px 35px;">
+                    <a id="btnExportar" class="btn btn-success btn-sm" style="margin-bottom:10px"><span style="color:white"><i class="far fa-file-excel"></i> Exportar</span></a>
+
+                    <div id="myGrid" style="height: 100%;" class="ag-theme-balham"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+
+    <script src="~/js/validacion.js"></script>
+    <script src="https://unpkg.com/ag-grid-community@24.1.0/dist/ag-grid-community.min.js"></script>
+    <script>
+
+        var columnDefs = [
+            { headerName: "Id", field: "idInconsistencia", width: 50 },
+            { headerName: "Detalle", field: "detalle", width: 300 },
+        ];
+
+        var gridOptions = {
+            columnDefs: columnDefs,
+            rowData: null,
+            gridAutoHeight: true,
+            enableSorting: true,
+            enableFilter: true,
+            pagination: true,
+            enableColResize: true
+        };
+
+        $(function () {
+
+            $("#checkTodos").change(function () {
+                var checkboxes = $('.validacionCheck');
+                checkboxes.prop('checked', $(this).is(':checked'));
+            });
+
+            $("#btnExportar").click(function () {
+                gridOptions.api.exportDataAsExcel();
+            });
+
+        })
+
+        function filtrarValidaciones() {
+            $("#frmFiltros").submit();
+        }
+
+        function mostrarInconsistencias(id) {
+
+            $.ajax({
+                url: '@Url.Action("DetalleInconsistencias")',
+                data: { idValidacion: id },
+                type: "GET",
+                dataType: "json",
+                success: function (data) {
+
+                    $("#myGrid").html("");
+
+                    var gridDiv = document.querySelector('#myGrid');
+                    new agGrid.Grid(gridDiv, gridOptions);
+                    gridOptions.api.setRowData(data);
+                    gridOptions.api.sizeColumnsToFit();
+                    gridOptions.api.redrawRows();
+
+                    $('#modalInconsistencias').modal('show');
+                }
+            });
+        }
+    </script>
+
+}

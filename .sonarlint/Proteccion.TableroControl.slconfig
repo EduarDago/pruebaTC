@@ -1,0 +1,11 @@
+{
+  "ServerUri": "http://181.129.43.220:9000/",
+  "Organization": null,
+  "ProjectKey": "TableroControl",
+  "Profiles": {
+    "CSharp": {
+      "ProfileKey": "AWigTIiMbzSReTPJcx5o",
+      "ProfileTimestamp": "2019-01-30T15:02:10-05:00"
+    }
+  }
+}

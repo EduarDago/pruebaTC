@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ProjectInfo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.sonarsource.com/msbuild/integration/2015/1">
+  <ProjectName>Proteccion.TableroControl.Presentacion</ProjectName>
+  <ProjectLanguage>C#</ProjectLanguage>
+  <ProjectType>Product</ProjectType>
+  <ProjectGuid>7738f217-75d3-47de-9096-16a2f5b83ae2</ProjectGuid>
+  <FullPath>G:\Proyectos\Proteccion.TableroControl\Proteccion.TableroControl.Presentacion\Proteccion.TableroControl.Presentacion.csproj</FullPath>
+  <IsExcluded>false</IsExcluded>
+  <AnalysisResults>
+    <AnalysisResult Id="FilesToAnalyze" Location="G:\Proyectos\Proteccion.TableroControl\.sonarqube\out\3\FilesToAnalyze.txt" />
+  </AnalysisResults>
+  <AnalysisSettings>
+    <Property Name="sonar.cs.roslyn.reportFilePath">G:\Proyectos\Proteccion.TableroControl\Proteccion.TableroControl.Presentacion\bin\Debug\netcoreapp2.1\Proteccion.TableroControl.Presentacion.dll.RoslynCA.json</Property>
+    <Property Name="sonar.cs.analyzer.projectOutPath">G:\Proyectos\Proteccion.TableroControl\.sonarqube\out\3</Property>
+  </AnalysisSettings>
+  <Configuration>Debug</Configuration>
+  <Platform>AnyCPU</Platform>
+  <TargetFramework>netcoreapp2.1</TargetFramework>
+</ProjectInfo>

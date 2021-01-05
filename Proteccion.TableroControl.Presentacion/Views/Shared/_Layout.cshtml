@@ -1,0 +1,239 @@
+﻿@using Microsoft.AspNetCore.Authorization;
+@{
+    var email = User.Claims.FirstOrDefault(x => x.Type == "email")?.Value;
+    var nombreUsuario = User.Claims.FirstOrDefault(x => x.Type == "name")?.Value;
+    var usuario = User.Identity.Name;
+
+    bool isAdmin = User.Identity.IsAuthenticated;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tablero de Control</title>
+
+    <link href="~/lib/bootstrap/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/lib/fontawesome/css/fontawesome-all.min.css" rel="stylesheet" />
+    <link href="~/lib/toastr/toastr.min.css" rel="stylesheet" />
+    <link href="~/lib/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
+    <link href="~/lib/alertify/alertify.min.css" rel="stylesheet" />
+    <link href="~/lib/alertify/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/css/site.css" />
+
+    @RenderSection("Styles", required: false)
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">
+            <img src="~/images/logo.png" class="logoBar" alt="Logo Protección">
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Configuración
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        @if (isAdmin)
+                        {
+                            <a class="dropdown-item" asp-action="Index" asp-controller="Parametro">Parametros</a>
+                            <a class="dropdown-item" asp-action="Index" asp-controller="Topico">Listas Genéricas</a>
+                        }
+                        else
+                        {
+                            <a class="dropdown-item" style="color:darkgray" href="javascript:void(0)">Parametros</a>
+                            <a class="dropdown-item" style="color:darkgray" href="javascript:void(0)">Listas Genéricas</a>
+                        }
+                    </div>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" asp-action="Tablero" asp-controller="Home" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Tablero de Control
+                    </a>
+
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        @if (isAdmin)
+                        {
+                            <a class="dropdown-item" asp-action="Index" asp-controller="Origen">Gestión Origen de Datos</a>
+                            <a class="dropdown-item" asp-action="Index" asp-controller="Validacion">Gestión Validaciones</a>
+                            <a class="dropdown-item" asp-action="EjecucionScripts" asp-controller="Tablero">Ejecucion Scripts</a>
+                        }
+                        else
+                        {
+                            <a class="dropdown-item" style="color:darkgray" href="javascript:void(0)">Gestión Origen de Datos</a>
+                            <a class="dropdown-item" style="color:darkgray" href="javascript:void(0)">Gestión Validaciones</a>
+                            <a class="dropdown-item" style="color:darkgray" href="javascript:void(0)">Ejecucion Scripts</a>
+                        }
+                    </div>
+
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Impacto PyG
+                    </a>
+                </li>
+                <li class="nav-item" style="margin-left:50px;">
+                    <a class="nav-link" asp-action="Importar" asp-controller="Origen">
+                        <i class="fas fa-download"></i> Importar
+                    </a>
+                </li>
+                <li class="nav-item" style="margin-left:10px;">
+                    <a class="nav-link" asp-action="Index" asp-controller="Tablero">
+                        <i class="fas fa-play-circle"></i> Ejecutar
+                    </a>
+                </li>
+                <li class="nav-item" style="margin-left:10px;">
+                    <a class="nav-link" asp-action="Visor" asp-controller="Origen">
+                        <i class="fas fa-columns"></i> Visor
+                    </a>
+                </li>
+            </ul>
+            <form class="form-inline my-2 my-lg-0">
+                <div>
+                    <div>
+                        <h5><span class="badge badge-primary">Fecha Proceso: <a href="javascript:void(0)" style="color:white" onclick="cambiarFecha()"><span id="idFechaProceso"></span></a></span></h5>
+                    </div>
+                    <div style="float:right">
+                        <ul class="nav navbar-nav navbar-right">
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="badge"><span class="fa fa-user"> @nombreUsuario</span></span><span class="caret"></span></a>
+                                <ul class="dropdown-menu" style="right:0;left:auto !important">
+                                    <li class="text-center"><a>@nombreUsuario</a></li>
+                                    <li class="text-center"><a asp-action="SignOut" asp-controller="Account" class="btn btn-xs btn-warning">Cerrar Sesión</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </nav>
+
+    <div class="body-content">
+        @RenderBody()
+    </div>
+
+    <!-- Modal Inconsistencias -->
+    <div class="modal fade" id="modalCambioFecha" tabindex="-1" role="dialog" aria-labelledby="modalCambioFechaTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Fecha Proceso</h3>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Fecha</label>
+                        <input type="text" class="form-control" id="txtFechaProceso" readonly />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" id="btnCambioFecha">Guardar Fecha</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.0.min.js"></script>
+    <script src="~/lib/popper.js/popper.js"></script>
+    <script src="~/lib/bootstrap/bootstrap.min.js"></script>
+    <script src="~/lib/jquery-ui/jquery-ui.min.js"></script>
+    <script src="~/lib/toastr/toastr.min.js"></script>
+    <script src="~/lib/alertify/alertify.min.js"></script>
+    <script src="~/lib/signalr/signalr.js"></script>
+    <script src="~/js/webNotifications.min.js"></script>
+    <script src="~/js/site.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/is_js/0.9.0/is.js"></script>
+    <script src="~/js/validaciones.js"></script>
+
+
+    <script>
+
+        const connection = new signalR.HubConnectionBuilder()
+            .withUrl("/notificacionHub")
+            .build();
+
+        let loggedUser = {};
+
+        $(function () {
+            $("#txtFechaProceso").datepicker({
+                maxDate: +7,
+                dateFormat: 'yy-mm-dd'
+            });
+
+            //Se consulta la fecha de proceso
+            $.ajax({
+                type: "GET",
+                dataType: 'json',
+                contentType: "application/json; charset=utf-8",
+                url: '@Url.Action("ObtenerFechaProceso", "Parametro")',
+
+                success: function (result) {
+                    $("#idFechaProceso").text(result.fecha);
+                }
+            });
+        });
+
+        toastr.options = {
+            "closeButton": true,
+            "debug": false,
+            "newestOnTop": true,
+            "progressBar": true,
+            "positionClass": "toast-bottom-full-width",
+            "preventDuplicates": false,
+            "onclick": null,
+            "showDuration": "300",
+            "hideDuration": "1000",
+            "timeOut": "5000",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        };
+
+        function quitarMarca() {
+            $(".validation-error").each(function () {
+                $(this).removeClass("validation-error");
+                return false;
+            });
+        }
+
+        function cambiarFecha() {
+            let fechaActual = $("#idFechaProceso").text();
+            $("#txtFechaProceso").val(fechaActual);
+            $('#modalCambioFecha').modal('show');
+        }
+        /*
+        function getLoggedUser() {
+
+            $.ajax({
+                    type: "GET",
+                dataType: 'json',
+                    async: false,
+                    contentType: "application/json; charset=utf-8",
+                    url: 'Url.Action("GetLoggedUser", "Home")',
+                    success: function (result) {
+                        loggedUser = result;
+                    }
+                });
+        }*/
+    </script>
+    
+    <script src="~/js/cambioFecha.js"></script>
+
+    @await Html.PartialAsync("_ControlMensajes")
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

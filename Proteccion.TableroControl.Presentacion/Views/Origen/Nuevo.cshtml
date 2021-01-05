@@ -1,0 +1,419 @@
+﻿@model OrigenViewModel
+@{
+    ViewData["Title"] = "Nuevo";
+}
+
+<h4>@Model.Accion Origen de Datos</h4>
+<hr />
+
+<form>
+
+    <fieldset class="scheduler-border" data-bind="disable: soloLectura">
+        <legend class="scheduler-border">Información básica</legend>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="inputEmail4">Tipo</label>
+                <select class="form-control" data-bind="value: tipoOrigen, disable: habilitarTipo" id="tipoOrigen">
+                    @foreach (var tipo in Model.TiposOrigen)
+                    {
+                        <option value="@tipo.Valor">@tipo.TextoMostrar</option>
+                    }
+                </select>
+            </div>
+            <div class="form-group col-md-6 text-center">
+                <div class="form-group col-md-6 text-center">
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" data-bind="checked: activo" id="customCheck1">
+                        <label class="custom-control-label" for="customCheck1">Activo</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="inputEmail4">Nombre</label>
+                <input type="text" class="form-control requerido" data-bind="value: nombre">
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-12">
+                <label for="inputPassword4">Descripción</label>
+                <textarea class="form-control requerido" data-bind="value: descripcion"></textarea>
+            </div>
+        </div>
+    </fieldset>
+
+    <fieldset class="scheduler-border" data-bind="visible: habilitarExcel, disable: soloLectura">
+        <legend class="scheduler-border">Configuración origen desde Archivo (Excel / Plano)</legend>
+
+        <div class="form-row">
+            <div class="form-group col-md-12">
+                <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" data-bind="checked: esOrigenSftp" id="customCheckOrigenSftp">
+                    <label class="custom-control-label" for="customCheckOrigenSftp">El origen es SFTP</label>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="rutaArchivoDestino">Ruta del Archivo local</label>
+                <input id="rutaArchivoDestino" type="text" class="form-control val-excel val-csv" data-bind="value: rutaArchivo">
+            </div>
+            <div class="form-group col-md-5">
+                <label for="nombreArchivoDestino">Nombre del archivo</label>
+                <input id="nombreArchivoDestino" type="text" class="form-control val-excel val-csv" data-bind="value: nombreArchivo">
+            </div>
+        </div>
+
+        <div class="form-row" data-bind="if: esOrigenSftp">
+            <div class="form-group col-md-6">
+                <label for="rutaArchivoOrigen">Ruta SFTP de origen</label>
+                <input id="rutaArchivoOrigen" type="text" class="form-control val-excel val-csv" data-bind="value: rutaOrigenSftp">
+            </div>
+            <div class="form-group col-md-5">
+                <label for="nombreArchivoOrigen">Nombre del archivo</label>
+                <input id="nombreArchivoOrigen" type="text" class="form-control val-excel val-csv" data-bind="value: nombreArchivo">
+            </div>
+        </div>
+
+
+        <div class="form-row" data-bind="if: esOrigenSftp">
+            <div class="form-group col-md-6">
+                <label for="rutaArchivoDestino">Ruta SFTP de destino</label>
+                <input id="rutaArchivoDestino" type="text" class="form-control val-excel val-csv" data-bind="value: rutaDestinoSftp">
+            </div>
+            <div class="form-group col-md-5">
+                <label for="nombreArchivoDestino">Nombre del archivo</label>
+                <input id="nombreArchivoDestino" type="text" class="form-control val-excel val-csv" data-bind="value: nombreArchivo">
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group col-md-6" data-bind="if: tipoOrigen() === '3'">
+                <label for="inputEmail4">Fila Inicio Encabezado</label>
+                <input id="filaEncabezado" type="text" class="form-control val-excel val-csv val-lonF soloNumeros" data-bind="value: filaEncabezado">
+            </div>
+            <div class="form-group col-md-6" data-bind="if: tipoOrigen() === '3'">
+                <label for="inputEmail4">&nbsp;&nbsp;</label>
+                <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" data-bind="checked: eliminarFila" id="customCheckEliminar">
+                    <label class="custom-control-label" for="customCheckEliminar">Eliminar ultima fila</label>
+                </div>
+            </div>
+            <div class="form-group col-md-6" data-bind="if: habilitarLongitudFija">
+                <label for="inputEmail4">Linea Inicio Lectura</label>
+                <input id="lineaInicioLectura" type="number" class="form-control val-csv requerido soloNumeros" data-bind="value: lineaInicioLectura">
+            </div>
+            <div class="form-group col-md-6" data-bind="if: habilitarLongitudFija">
+                <label for="inputEmail4">Columna Inicio Lectura</label>
+                <input id="columnaInicioLectura" type="number" class="form-control val-csv requerido soloNumeros" data-bind="value: columnaInicioLectura">
+            </div>
+            <div class="form-group col-md-6">
+                <label for="inputEmail4">&nbsp;&nbsp;</label>
+                <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" data-bind="checked: concatenarFecha" id="customCheckFecha">
+                    <label class="custom-control-label" for="customCheckFecha">Incluir fecha proceso</label>
+                </div>
+            </div>
+
+            <div class="form-group col-md-6" data-bind="if: habilitarSeparador">
+                <label for="inputEmail4">Separador</label>
+                <input id="separador" type="text" class="form-control val-excel val-csv val-lonF" data-bind="value: separador">
+            </div>
+
+        </div>
+    </fieldset>
+
+    <fieldset class="scheduler-border" data-bind="visible: habilitarBD, disable: soloLectura">
+        <legend class="scheduler-border">Configuración origen BD</legend>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="inputEmail4">Esquema</label>
+                <input id="esquemaProcedimiento" type="text" class="form-control val-bd soloTexto" data-bind="value: esquemaProcedimiento">
+            </div>
+            <div class="form-group col-md-6">
+                <label for="inputPassword4">Procedimiento Almacenado</label>
+                <input id="procedimiento" type="text" class="form-control val-bd" data-bind="value: procedimiento">
+            </div>
+        </div>
+        <div>
+            <h5>
+                Filtros
+                <a style="color:green;float:right" data-toggle="modal" href="#modalCrudFiltros" data-bind="visible: !soloLectura()"><i class="fas fa-plus-circle" style="font-size:25px"></i></a>
+            </h5>
+        </div>
+
+        <div class="form-row" data-bind="visible: parametros().length > 0">
+            <div class="form-group col-md-12">
+                <table class="table table-bordered table-sm table-striped">
+                    <thead>
+                        <tr class="text-center">
+                            <th data-bind="visible: !soloLectura()">Acciones</th>
+                            <th>Nombre</th>
+                            <th>Tipo</th>
+                            <th>Valor</th>
+                            <th>Dinámico</th>
+                        </tr>
+                    </thead>
+                    <tbody data-bind="foreach: parametros">
+                        <tr class="text-center">
+                            <td style="width:80px" data-bind="visible: !$root.soloLectura()">
+                                <a href="javascript.void(0)" data-bind="click: $root.pedirConfirmacionParametro"><span style="color:red"><i class="fas fa-ban"></i></span></a>
+                            </td>
+                            <td><span data-bind="text: nombre"></span></td>
+                            <td><span data-bind="text: tipoDato"></span></td>
+                            <td><span data-bind="text: valor"></span></td>
+                            <td><span data-bind="text: dinamico"></span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </fieldset>
+
+    <fieldset class="scheduler-border" data-bind="disable: soloLectura">
+        <legend class="scheduler-border">Configuración destino</legend>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="inputPassword4">Esquema</label>
+                <input type="text" class="form-control requerido soloTexto" data-bind="value: esquemaTabla, disable: habilitarTipo">
+            </div>
+            <div class="form-group col-md-6">
+                <label for="inputEmail4">Nombre Tabla</label>
+                <input type="text" class="form-control requerido" data-bind="value: nombreTabla, disable: habilitarTipo" maxlength="20">
+            </div>
+        </div>
+        <div>
+            <h5>
+                Campos
+                <a style="color:green;float:right" data-toggle="modal" href="#modalCrudCampos" data-bind="visible: !soloLectura()"><i class="fas fa-plus-circle" style="font-size:25px"></i></a>
+            </h5>
+        </div>
+
+        <div class="form-row" data-bind="visible: campos().length > 0">
+            <div class="form-group col-md-12">
+                <table class="table table-bordered table-sm table-striped">
+                    <thead>
+                        <tr class="text-center">
+                            <th data-bind="visible: !soloLectura()">Acciones</th>
+                            <th>Nombre</th>
+                            <th data-bind="visible: tipoOrigen()==='3'">Nombre Excel</th>
+                            <th data-bind="visible: tipoOrigen()==='20'">Longitud Campo</th>
+                            <th data-bind="visible: tipoOrigen()==='20'">No Decimales</th>
+                            <th data-bind="visible: habilitarLongitudFija()">Quitar Espacios</th>
+                            <th>Tipo Dato</th>
+                        </tr>
+                    </thead>
+                    <tbody data-bind="foreach: campos">
+                        <tr class="text-center">
+                            <td style="width:80px" data-bind="visible: !$root.soloLectura()">
+                                <a href="javascript.void(0)" data-bind="click: $root.pedirConfirmacionCampo"><span style="color:red"><i class="fas fa-trash-alt"></i></span></a>
+                            </td>
+                            <td><span data-bind="text: nombre"></span></td>
+                            <td data-bind="visible: $root.tipoOrigen()==='3'"><span data-bind="text: nombreExcel"></span></td>
+                            <th data-bind="visible: $root.tipoOrigen()==='20'"><span data-bind="text: longitudCampo"></span></th>
+                            <th data-bind="visible: $root.tipoOrigen()==='20'"><span data-bind="text: posicionInicial() === 0 ? '-': posicionInicial"></span></th>
+                            <th data-bind="visible: $root.habilitarLongitudFija()"><span data-bind="text: eliminarCamposBlanco() === true ? 'Activo':'Inactivo'"></span></th>
+                            <td><span data-bind="text: tipoDato"></span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </fieldset>
+    <div class="text-center">
+        <a asp-action="Index" class="btn btn-secondary">Regresar</a>
+        <input type="button" class="btn btn-primary" value="Guardar" data-bind="click: guardar,visible: !soloLectura()" />
+    </div>
+
+</form>
+
+<!-- Modal Campos -->
+<div class="modal fade" id="modalCrudCampos" tabindex="-1" role="dialog" aria-labelledby="modalDetalleValidacionTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4>Campos</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div style="margin:0px 35px;">
+
+                    <div class="form-group">
+                        <label>Nombre Campo</label>
+                        <input type="text" class="form-control" data-bind="value: nombreCampo" />
+                    </div>
+                    <div class="form-group" data-bind="visible: tipoOrigen() === '3'">
+                        <label>Nombre Excel</label>
+                        <input type="text" class="form-control" data-bind="value: nombreExcel" />
+                    </div>
+                    <div class="form-group" data-bind="if: tipoOrigen() === '20'">
+                        <label>Longitud Campo</label>
+                        <input type="number" class="form-control soloNumeros" data-bind="value: longitudCampo" />
+                    </div>
+                    <div class="form-group" data-bind="if: habilitarCampoDecimal">
+                        <label>Cantidad Decimales</label>
+                        <input type="number" class="form-control soloNumeros" data-bind="value: posicionInicial" />
+                    </div>
+                    <div class="form-group custom-control custom-checkbox" data-bind="if: habilitarLongitudFija()">
+                        <input type="checkbox" class="custom-control-input" data-bind="checked: eliminarCamposBlanco" id="idCamposBlanco">
+                        <label class="custom-control-label" for="idCamposBlanco">Eliminar Espacios en blanco &nbsp;&nbsp;</label>
+                    </div>
+                    <div class="form-group">
+                        <label>Tipo de Dato</label>
+                        <select class="form-control" data-bind="value: tipoCampo">
+                            @foreach (var tipo in Model.TiposDato)
+                            {
+                                <option value="@tipo.Valor">@tipo.TextoMostrar</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="text-center">
+                        <input type="button" value="Guardar" class="btn btn-success" data-bind="click: addCampo, disable: !habilitarBotonCampo()" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Filtros -->
+<div class="modal fade" id="modalCrudFiltros" tabindex="-1" role="dialog" aria-labelledby="modalDetalleValidacionTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Parametros</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div style="margin:0px 35px;">
+                    <div class="form-group">
+                        <div class="form-group col-md-12">
+                            <div class="custom-control custom-checkbox" style="padding-left: 0.5rem;">
+                                <input type="checkbox" class="custom-control-input" data-bind="checked: esFechaProceso, event: { change: addFechaProceso }" id="customFechaProceso">
+                                <label class="custom-control-label" for="customFechaProceso">Enviar fecha de proceso</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Nombre Parametro</label>
+                        <input type="text" class="form-control" data-bind="value: nombreParametro, disable: !habilitarParametros()" />
+                    </div>
+                    <div class="form-group">
+                        <label>Tipo de Dato</label>
+                        <select class="form-control" data-bind="value: tipoCampoParametro, disable: !habilitarParametros()">
+                            @foreach (var tipo in Model.TiposDato)
+                            {
+                                <option value="@tipo.Valor">@tipo.TextoMostrar</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Valor Filtro</label>
+                        <input type="text" class="form-control" data-bind="value: valorParametro, disable: !habilitarParametros()" />
+                    </div>
+                    <div class="form-group">
+                        <div class="form-group col-md-6">
+                            <div class="custom-control custom-checkbox" style="padding-left: 0.5rem;">
+                                <input type="checkbox" class="custom-control-input" data-bind="checked: dinamico, disable: !habilitarParametros()" id="customCheck2">
+                                <label class="custom-control-label" for="customCheck2">Dinámico</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <input type="submit" value="Guardar" class="btn btn-success" data-bind="click: addParametro, disable: !habilitarBotonParametro()" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Eliminacion -->
+<div class="modal fade" id="modalEliminar" tabindex="-1" role="dialog" aria-labelledby="modalEliminarOrigenLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalEliminarOrigenLabel">Confirmación</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>¿Está seguro de eliminar esta información?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <a href="javascript:void(0)" data-bind="click: eliminarDato" class="btn btn-primary" id="btnEliminar">Aceptar</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+
+    @if (Model.OrigenDato.RutaOrigenSftp != null)
+    {
+        <script type="text/javascript">
+            $(function () {
+                setTimeout(function () {
+                    $("#customCheckOrigenSftp").click();
+                }, 1000);                
+            });
+        </script>
+    }
+
+    <script src="~/lib/knockout/knockout-3.4.2.js"></script>
+    <script>
+        $(function () {
+            
+            $("#tipoOrigen").change(function () {
+                let valor = $(this).val();
+                switch (valor) {
+                    case "20":
+                        $(".val-bd").removeClass('requerido');
+                        $(".val-excel").removeClass('requerido');
+                        $(".val-csv").addClass('requerido');
+                        $(".val-lonF").removeClass('requerido');
+                        break;
+                    case "3":
+                        $(".val-bd").removeClass('requerido');
+                        $(".val-csv").removeClass('requerido');
+                        $(".val-excel").addClass('requerido');
+                        break;
+                    case "4":
+                        $(".val-csv").removeClass('requerido');
+                        $(".val-excel").removeClass('requerido');
+                        $(".val-bd").addClass('requerido');
+                        break;
+                    default:
+                        $(".val-bd").removeClass('requerido');
+                        $(".val-excel").removeClass('requerido');
+                        $(".val-csv").addClass('requerido');
+                        break;
+                }
+            });
+            
+            //se validan los campos de solo numeros
+            $('.soloNumeros').keypress(function (key) {
+                return $(this).soloNumeros(key);
+            });
+
+            //se validan los campos de solo texto
+            $('.soloTexto').keypress(function (key) {
+                return $(this).soloTextoNoEspacios(key);
+            });
+        });
+        let accion = '@Model.Accion';
+        let urlPost = '@Url.Action("GuardarConfiguracion")';
+        let origenData = @Html.HtmlConvertToJson(Model.OrigenDato);
+    </script>
+    <script src="~/js/viewmodels/OrigenViewModel.js"></script>
+}

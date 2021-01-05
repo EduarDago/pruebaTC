@@ -1,0 +1,95 @@
+﻿@model TopicoViewModel
+@{
+    ViewData["Title"] = "Nuevo Topico";
+}
+
+<h2>Nuevo Topico</h2>
+<hr />
+
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="Nuevo" id="frmValidacion" method="post">
+
+            <input type="hidden" asp-for="Topico.IdTopico" />
+
+            <div class="row">
+
+                <div class="form-group col-md-6">
+                    <label>Identificador</label>
+                    <select id="identificador" asp-for="Topico.Identificador" class="form-control requerido"
+                            asp-items="@(new SelectList(Model.Identificadores))">
+                        <option value="">Seleccione Identificador</option>
+                    </select>
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label>Valor</label>
+                    <input asp-for="Topico.Valor" class="form-control requerido" />
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label>Texto a Mostrar</label>
+                    <input asp-for="Topico.TextoMostrar" class="form-control requerido" />
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label>Orden</label>
+                    <input id="orden" asp-for="Topico.Orden" class="form-control requerido" />
+                </div>
+            </div>
+
+            <div class="form-group text-center" style="margin-top:50px">
+                <a asp-action="Index" class="btn btn-secondary">Regresar</a>
+                <input type="button" id="btnGuardar" value="Guardar" class="btn btn-success" />
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+
+    <script>
+
+        $(function () {
+
+            $("#btnGuardar").click(function () {
+
+                var continuar = true;
+
+                $(".requerido").each(function () {
+                    if (continuar) {
+                        continuar = $(this).requerido();
+                    } else {
+                        $(this).requerido();
+                    }
+                });
+
+                if (!continuar) return false;
+
+                $("#frmValidacion").submit();
+            });
+
+
+            $("#identificador").change(function () {
+
+                let valor = $(this).val();
+
+                $.ajax({
+                    type: "GET",
+                    url: '@Url.Action("ObtenerOrden")',
+                    contentType: "application/json",
+                    data: { identificador: valor },
+                    success: function (data) {
+                        $("#orden").val(data);
+                    }
+                });
+            });
+        });
+
+    </script>
+
+}
+
+

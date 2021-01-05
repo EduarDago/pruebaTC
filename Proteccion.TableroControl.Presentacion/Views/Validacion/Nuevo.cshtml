@@ -1,0 +1,99 @@
+﻿@model DetalleValidacionViewModel
+
+@{
+    ViewData["Title"] = "Nuevo";
+}
+
+<h2>@Model.Accion Validación</h2>
+<hr />
+
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="GuardarValidacion" id="frmValidacion" method="post">
+
+            <input type="hidden" asp-for="Validacion.IdValidacion" />
+
+            <div class="row">
+                <div class="form-group col-md-12">
+                    <label>Nombre</label>
+                    <input asp-for="Validacion.Nombre" class="form-control requerido" />
+                </div>
+            </div>
+
+            <div class="row">
+
+                <div class="form-group col-md-6">
+                    <label>Tipo Validación</label>
+                    <select asp-for="Validacion.IdTipoValidacion" class="form-control requerido"
+                            asp-items="@(new SelectList(Model.TiposValidacion,"IdTopico","TextoMostrar"))">
+                        <option value="">Seleccione Tipo</option>
+                    </select>
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label>Equipo</label>
+                    <select asp-for="Validacion.IdEquipo" class="form-control requerido"
+                            asp-items="@(new SelectList(Model.Equipos,"IdTopico","TextoMostrar"))">
+                        <option value="">Seleccione Tipo</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label>Esquema</label>
+                    <input asp-for="Validacion.Esquema" class="form-control requerido" />
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label>Sp</label>
+                    <input asp-for="Validacion.Sp" class="form-control requerido" />
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group col-md-12 text-center">
+                    <div class="form-group">
+                        <div class="custom-control custom-checkbox">
+                            <input asp-for="Validacion.Activo" class="custom-control-input" id="customCheck1">
+                            <label class="custom-control-label" for="customCheck1">Activo</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group text-center" style="margin-top:50px">
+                <a asp-action="Index" class="btn btn-secondary">Regresar</a>
+                <input type="button" id="btnGuardar" value="Guardar" class="btn btn-success" />
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+
+    <script>
+
+        $(function () {
+
+            $("#btnGuardar").click(function () {
+
+                var continuar = true;
+
+                $(".requerido").each(function () {
+                    if (continuar) {
+                        continuar = $(this).requerido();
+                    } else {
+                        $(this).requerido();
+                    }
+                });
+
+                if (!continuar) return false;
+
+                $("#frmValidacion").submit();
+            });
+        });
+
+    </script>
+
+}

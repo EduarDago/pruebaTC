@@ -1,0 +1,44 @@
+﻿@model VisorViewModel
+@{
+    ViewData["Title"] = "Visor";
+}
+
+<div class="row">
+    <div class="col-8">
+        <h1>Visor de datos</h1>
+    </div>
+</div>
+<hr />
+
+<div class="row text-right">
+
+    <div class="col-md-4 text-left">
+        <a id="btnExportar" style="display:none" class="btn btn-success btn-sm"><span style="color:white"><i class="far fa-file-excel"></i> Exportar</span></a>
+    </div>
+    <div class="offset-4 col-4">
+        <label>Origen :</label>
+        <select class="form-control-sm" id="selectOrigen">
+            <option value="">Seleccione Origen.....</option>
+            @foreach (var item in Model.Origenes)
+            {
+                <option value="@item.IdOrigenDato">@item.Nombre</option>
+            }
+        </select>
+    </div>
+
+</div>
+
+<div id="myGrid" style="height: 100%;" class="ag-theme-balham"></div>
+
+
+@section Scripts{
+
+    <script>
+        let urlDatos = '@Url.Action("ObtenerDatos")';
+    </script>
+    <script src="https://unpkg.com/ag-grid-community@24.1.0/dist/ag-grid-community.min.js"></script>
+    <script src="~/js/visor.js"></script>
+
+}
+
+

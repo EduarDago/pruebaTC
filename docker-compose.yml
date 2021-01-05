@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  proteccion.tablerocontrol.presentacion:
+    image: ${DOCKER_REGISTRY}protecciontablerocontrolpresentacion
+    build:
+      context: .
+      dockerfile: Proteccion.TableroControl.Presentacion/Dockerfile

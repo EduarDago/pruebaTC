@@ -1,0 +1,75 @@
+﻿@model DetalleValidacionViewModel
+
+@{
+    ViewData["Title"] = "Nuevo";
+}
+
+<h2>Detalle Validación</h2>
+<hr />
+
+<div class="row">
+    <div class="col-md-12">
+
+        <div class="row">
+            <div class="form-group col-md-6">
+                <strong>Id</strong>
+                <div>
+                    @Html.DisplayFor(x => x.Validacion.IdValidacion)
+                </div>
+            </div>
+            <div class="form-group col-md-6">
+                <strong>Nombre</strong>
+                <div>
+                    @Html.DisplayFor(x => x.Validacion.Nombre)
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+
+            <div class="form-group col-md-6">
+                <strong>Tipo Validación</strong>
+                <div>
+                    @Html.DisplayFor(x => x.Validacion.TipoValidacion.TextoMostrar)
+                </div>
+            </div>
+
+            <div class="form-group col-md-6">
+                <strong>Equipo</strong>
+                <div>
+                    @Html.DisplayFor(x => x.Validacion.Equipo.TextoMostrar)
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+
+            <div class="form-group col-md-6">
+                <strong>Esquema</strong>
+                <div>
+                    @Html.DisplayFor(x => x.Validacion.Esquema)
+                </div>
+            </div>
+
+            <div class="form-group col-md-6">
+                <strong>Procedimiento (SP)</strong>
+                <div>
+                    @Html.DisplayFor(x => x.Validacion.Sp)
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group col-md-12">
+                <strong>Activo</strong>
+                <div>
+                    @Html.DisplayFor(x => x.Validacion.Activo)
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group text-center" style="margin-top:30px">
+            <a asp-action="Index" class="btn btn-secondary">Regresar</a>
+        </div>
+    </div>
+</div>

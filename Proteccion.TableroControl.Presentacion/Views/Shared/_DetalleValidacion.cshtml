@@ -1,0 +1,47 @@
+﻿@model Validacion
+
+<h2>@Model.Nombre</h2>
+<div class="form-group">
+    <label>Objetivo: </label>
+    <input type="text" value="@Model.Objetivo" class="form-control" readonly />
+</div>
+<div class="row">
+    <div class="col-3">
+        <label>Origen de Datos: </label>
+    </div>
+    <div class="col-5">
+        <input type="text" value="@Model.BaseDatosOrigen" class="form-control" readonly />
+    </div>
+    <div class="col-4">
+        <input type="text" value="@Model.TablaOrigen" class="form-control" readonly />
+    </div>
+</div>
+
+<div class="row" style="margin-top:10px">
+    <div class="col-3">
+        <label>Filtro: </label>
+    </div>
+    <div class="col-9">
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Campo</th>
+                    <th>Operador</th>
+                    <th>Valor</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var detalle in Model.DetalleValidaciones)
+                {
+                    <tr>
+                        <td>@detalle.Campo</td>
+                        <td>@detalle.Operador</td>
+                        <td>@detalle.Valor</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+</div>
+

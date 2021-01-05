@@ -1,0 +1,6 @@
+projectKey=TableroControl
+serverUrl=http://181.57.150.98:9000
+serverVersion=6.7.4.38452
+dashboardUrl=http://181.57.150.98:9000/dashboard/index/TableroControl
+ceTaskId=AWRH6zw4pqOxGonw8L8Z
+ceTaskUrl=http://181.57.150.98:9000/api/ce/task?id=AWRH6zw4pqOxGonw8L8Z

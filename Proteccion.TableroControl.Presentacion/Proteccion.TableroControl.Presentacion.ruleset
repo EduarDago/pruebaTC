@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RuleSet Name="SonarQube - Proteccion.TableroControl Sonar way" ToolsVersion="15.0">
+  <Include Path="..\.sonarlint\tablerocontrolcsharp.ruleset" Action="Default" />
+  <Rules AnalyzerId="SonarAnalyzer.CSharp" RuleNamespace="SonarAnalyzer.CSharp">
+    <Rule Id="S1075" Action="Warning" />
+  </Rules>
+</RuleSet>

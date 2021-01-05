@@ -1,0 +1,65 @@
+﻿@model ParametroViewModel
+@{
+    ViewData["Title"] = Model.Accion;
+}
+
+<h2>@Model.Accion Parametro</h2>
+<hr />
+
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="@Model.Accion" id="frmValidacion" method="post">
+
+            <input type="hidden" asp-for="Parametro.IdParametro" />
+
+            <div class="row">
+                <div class="form-group col-md-12">
+                    <label>Nombre</label>
+                    <input asp-for="Parametro.Nombre" class="form-control requerido" />
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group col-md-12">
+                    <label>Valor</label>
+                    <input asp-for="Parametro.Valor" class="form-control requerido" />
+                </div>
+            </div>
+
+            <div class="form-group text-center" style="margin-top:50px">
+                <a asp-action="Index" class="btn btn-secondary">Regresar</a>
+                <input type="button" id="btnGuardar" value="Guardar" class="btn btn-success" />
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+
+    <script>
+
+        $(function () {
+
+            $("#btnGuardar").click(function () {
+
+                var continuar = true;
+
+                $(".requerido").each(function () {
+                    if (continuar) {
+                        continuar = $(this).requerido();
+                    } else {
+                        $(this).requerido();
+                    }
+                });
+
+                if (!continuar) return false;
+
+                $("#frmValidacion").submit();
+            });
+        });
+
+    </script>
+
+}
+
+

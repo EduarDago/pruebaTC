@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ProjectInfo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.sonarsource.com/msbuild/integration/2015/1">
+  <ProjectName>Proteccion.TableroControl.Proxy</ProjectName>
+  <ProjectLanguage>C#</ProjectLanguage>
+  <ProjectType>Product</ProjectType>
+  <ProjectGuid>f4b6cfeb-21ce-4a56-8a78-63e9ce986872</ProjectGuid>
+  <FullPath>G:\Proyectos\Proteccion.TableroControl\Proteccion.TableroControl.Proxy\Proteccion.TableroControl.Proxy.csproj</FullPath>
+  <IsExcluded>false</IsExcluded>
+  <AnalysisResults>
+    <AnalysisResult Id="FilesToAnalyze" Location="G:\Proyectos\Proteccion.TableroControl\.sonarqube\out\2\FilesToAnalyze.txt" />
+  </AnalysisResults>
+  <AnalysisSettings>
+    <Property Name="sonar.cs.roslyn.reportFilePath">G:\Proyectos\Proteccion.TableroControl\Proteccion.TableroControl.Proxy\bin\Debug\netcoreapp2.1\Proteccion.TableroControl.Proxy.dll.RoslynCA.json</Property>
+    <Property Name="sonar.cs.analyzer.projectOutPath">G:\Proyectos\Proteccion.TableroControl\.sonarqube\out\2</Property>
+  </AnalysisSettings>
+  <Configuration>Debug</Configuration>
+  <Platform>AnyCPU</Platform>
+  <TargetFramework>netcoreapp2.1</TargetFramework>
+</ProjectInfo>

@@ -1,0 +1,11 @@
+t
+kG:\Proyectos\Proteccion.TableroControl\Proteccion.TableroControl.Presentacion\Controllers\HomeController.csutf-8v
+mG:\Proyectos\Proteccion.TableroControl\Proteccion.TableroControl.Presentacion\Controllers\OrigenController.csutf-8w
+nG:\Proyectos\Proteccion.TableroControl\Proteccion.TableroControl.Presentacion\Controllers\TableroController.csutf-8u
+lG:\Proyectos\Proteccion.TableroControl\Proteccion.TableroControl.Presentacion\Helpers\HtmlHelperExtension.csutf-8n
+eG:\Proyectos\Proteccion.TableroControl\Proteccion.TableroControl.Presentacion\Hubs\NotificacionHub.csutf-8o
+fG:\Proyectos\Proteccion.TableroControl\Proteccion.TableroControl.Presentacion\Models\ErrorViewModel.csutf-8a
+XG:\Proyectos\Proteccion.TableroControl\Proteccion.TableroControl.Presentacion\Program.csutf-8a
+XG:\Proyectos\Proteccion.TableroControl\Proteccion.TableroControl.Presentacion\Startup.csutf-8
+vG:\Proyectos\Proteccion.TableroControl\Proteccion.TableroControl.Presentacion\ViewModels\DetalleValidacionViewModel.csutf-8u
+lG:\Proyectos\Proteccion.TableroControl\Proteccion.TableroControl.Presentacion\ViewModels\TableroViewModel.csutf-8

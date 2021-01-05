@@ -1,0 +1,149 @@
+﻿@model List<EjecucionImportacion>
+@{
+    ViewData["Title"] = "Tablero";
+}
+
+<div class="row">
+    <div class="col-12">
+        <h1>Importar Orígenes de Datos <a href="javascript:void(0)" id="btnEjecutar" style="color:green"><i class="fas fa-play-circle"></i></a></h1>
+    </div>
+</div>
+<hr />
+
+<table class="table table-bordered table-striped table-sm text-center">
+    <thead>
+        <tr style="font-size:11px">
+            <td rowspan="2" style="vertical-align:middle"><input type="checkbox" id="checkTodos" /></td>
+            <th rowspan="2" style="vertical-align:middle">¿Validar?</th>
+            <th rowspan="2" style="vertical-align:middle">Origen de Datos</th>
+            <th colspan="2">Última Carga</th>
+            <th rowspan="2" style="vertical-align:middle">Estado</th>
+            <th rowspan="2" style="vertical-align:middle">Cantidad Registros</th>
+        </tr>
+        <tr style="font-size:11px">
+            <th>Fecha</th>
+            <th>Cantidad</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var origen in Model)
+        {
+            <tr>
+                <td style="width:30px"><input type="checkbox" id="checkOrigen_@origen.IdOrigenDato" data-id="@origen.IdOrigenDato" class="origenCheck" /></td>
+                <td>
+                    @if (origen.TipoOrigen == TipoOrigen.Excel)
+                    {
+                        <input type="checkbox" id="checkValidar_@origen.IdOrigenDato" data-id="@origen.IdOrigenDato" class="checkValidar" />
+                    }
+                </td>
+                <td>@origen.NombreOrigen</td>
+                <td>@(origen.FechaEjecucion == null ? "-" : origen.FechaEjecucion?.ToShortDateString())</td>
+                <td>@origen.CantidadRegistros</td>
+                <td style="width:400px">
+                    <img id="imagen_@origen.IdOrigenDato" style="display:none" class="cargaEjecucion" src="../images/loader.gif" alt="procesando" height="20" /> &nbsp;
+                    <span class="resultados" id="resultado_@origen.IdOrigenDato">Pendiente</span>&nbsp;&nbsp;
+                    <a style="display:none" id="btnInconsistencia_@origen.IdOrigenDato" href="javascript:void(0)" onclick="verInconsistencias(@origen.IdOrigenDato)"><i class="fa fa-search-plus"></i> </a>
+                </td>
+                <td>
+                    <span id="cantidad_@origen.IdOrigenDato">0</span>
+                    <span id="listaerrores_@origen.IdOrigenDato" style="display:none"></span>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div id="divError" style="display:none">
+    <span id="mensajeError"></span>
+</div>
+
+<!-- Modal Inconsistencias -->
+<div class="modal fade" id="modalInconsistencias" tabindex="-1" role="dialog" aria-labelledby="modalInconsistenciasTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Campos Inconsistentes</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="inconsistencias" style="margin:5px 35px;display:none">
+                    <ul id="listado"></ul>
+                </div>
+                <div id="inconsistenciasDatos" style="margin:5px 35px;display:none">
+                    <a id="btnExportar" class="btn btn-success btn-sm" style="margin-bottom:10px"><span style="color:white"><i class="far fa-file-excel"></i> Exportar</span></a>
+
+                    <div id="myGrid" style="height: 100%;" class="ag-theme-balham"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="~/js/importacion.js"></script>
+    <script src="https://unpkg.com/ag-grid-community@24.1.0/dist/ag-grid-community.min.js"></script>
+    <script>
+
+        var columnDefs = [
+            { headerName: "Fila", field: "fila", width: 50 },
+            { headerName: "Detalle", field: "errores", width: 300 },
+        ];
+
+        var gridOptions = {
+            columnDefs: columnDefs,
+            rowData: null,
+            gridAutoHeight: true,
+            enableSorting: true,
+            enableFilter: true,
+            pagination: true,
+            enableColResize: true
+        };
+
+        $(function () {
+
+            $("#checkTodos").change(function () {
+                var checkboxes = $('.origenCheck');
+                checkboxes.prop('checked', $(this).is(':checked'));
+            });
+
+            $("#btnExportar").click(function () {
+                gridOptions.api.exportDataAsExcel();
+            });
+
+        })
+
+        function verInconsistencias(id) {
+
+            if (validaciones.length > 0) {
+                $("#inconsistenciasDatos").show();
+                $("#inconsistencias").hide();
+
+                $("#myGrid").html("");
+
+
+                var gridDiv = document.querySelector('#myGrid');
+                new agGrid.Grid(gridDiv, gridOptions);
+                gridOptions.api.setRowData(validaciones);
+                gridOptions.api.sizeColumnsToFit();
+                gridOptions.api.redrawRows();
+
+            } else {
+                $("#inconsistencias").show();
+                $("#inconsistenciasDatos").hide();
+
+                let errores = $("#listaerrores_" + id).text().split(';');
+                $("#listado").html("");
+                $("#listado").append(
+                    errores.map(error =>
+                        $("<li>").append($("<a>").text(error))
+                    )
+                );
+            }
+
+            $("#modalInconsistencias").modal("show");
+        }
+    </script>
+
+}

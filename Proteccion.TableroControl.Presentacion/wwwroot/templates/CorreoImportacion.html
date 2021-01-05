@@ -1,0 +1,50 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Envio Importaciones</title>
+    <link rel="shortcut icon" href="../favicon.ico" />
+    <style>
+        #customers {
+            font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+            #customers td, #customers th {
+                border: 1px solid #ddd;
+                padding: 8px;
+            }
+
+            #customers tr:nth-child(even) {
+                background-color: #f2f2f2;
+            }
+
+            #customers th {
+                padding-top: 12px;
+                padding-bottom: 12px;
+                text-align: left;
+                background-color: #4CAF50;
+                color: white;
+            }
+    </style>
+</head>
+<body>
+    <div style="margin:20px">
+        <p> Señor(a) <strong> @Usuario</strong>, </p>
+        <p> El proceso de importación realizado el día <strong> @Fecha</strong> ha finalizado. A continuación se detalla el resultado de cada importación :</p>
+
+        <table id="customers">
+            <thead>
+                <tr>
+                    <th>Origen de datos</th>
+                    <th>Estado</th>
+                </tr>
+            </thead>
+            <tbody>
+                @CuerpoTabla
+            </tbody>
+        </table>
+
+    </div>
+</body>
+</html>

@@ -1,0 +1,29 @@
+﻿@if (ViewBag.Notificacion != null)
+{
+    var notificacion = (Notificacion)ViewBag.Notificacion;
+
+    <script>
+
+        var mensaje = '@notificacion.Mensaje';
+        var encabezado = '@notificacion.Header';
+        var redireccionar = '@notificacion.Redireccionar';
+
+    @switch(notificacion.TipoVentana)
+        {
+            case TipoVentana.Mensaje:
+                    @:alertify.alert(mensaje).setHeader(encabezado).set('onok', function (closeEvent) { if (redireccionar === 'True') { window.location.href = '@Url.Action(notificacion.ActionName, notificacion.ControllerName)'; } });
+                        break;
+            case TipoVentana.Notificacion:
+                    switch(notificacion.TipoMensaje)
+                    {
+                        case TipoNotificacion.Exito:
+                             @:toastr["success"](mensaje, encabezado);
+                                    break;
+                        case TipoNotificacion.Error:
+                             @:toastr["error"](mensaje, encabezado);
+                                    break;
+                    }
+                break;
+        }
+    </script>
+}
